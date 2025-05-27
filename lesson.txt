@@ -1,0 +1,78 @@
+Lesson 10 React class
+
+// file -> UserClass.js
+import React from "react";
+
+class UserClass extends React.Component {
+    constructor(props) {
+        super(props); 
+
+        this.state = {
+            count: 0,
+            userInfo: {
+                name: "Dummy",
+                location: "Default",
+            },
+        };
+        // console.log(this.props.name + "Child Constructor");
+    }
+    async componentDidMount(){
+        // console.log(this.props.name + "Child Component Did Mount");
+        const data = await fetch("https://api.github.com/users/rajan-shubham");
+        const json = await data.json();
+        this.setState({
+            userInfo: json,
+        });
+        console.log(json);
+    }
+    render () {
+        // const { name, location } = this.props;
+        const { count } = this.state;
+        // console.log(this.props.name + "Child Render");
+        const {avatar_url, location, name, twitter_username } = this.state.userInfo;
+        debugger;
+        return (
+            <div className="user-card">
+                <h1>Count : {count}</h1>
+                <button onClick={() => {
+                    // NEVER UPDATE STATE VARIABLES DIRECTLY
+                    this.setState({
+                        count: this.state.count + 1,
+                    });
+                }}>Count Increase </button>
+                <img src={avatar_url} />
+                <h2>Name : {name}</h2>
+                <h3>Location : {location}</h3>
+                <h4>Contact : @{twitter_username} </h4>
+            </div>
+        );
+    }
+}
+export default UserClass;
+
+
+// file -> About.js
+import User from "./User";
+import UserClass from "./UserClass";
+import React from "react";
+class About extends React.Component{
+    constructor(props){
+        super(props);
+        // console.log("Parent Constructor");
+    }
+    componentDidMount(){
+        // console.log("Parent Component Did Mount");
+    }
+    render () {
+        // console.log("Parent Render");
+        return (
+            <div>
+                <h1>About Class Component</h1>
+                <h2>This is React About Page</h2>
+                {/* <User name={"Akshay Saini (Functional)"} /> */}
+                <UserClass name={"First (Classes) "} location={"Dehradun (classes)"} />
+            </div>
+        );  
+    }
+}
+export default About;

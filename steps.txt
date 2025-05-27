@@ -1,0 +1,48 @@
+npm init
+npm cache clean --force
+sudo chown -R 501:20 "/Users/rajan/.npm"
+npm install -D parcel
+
+npm install react
+npm install react-dom
+
+npx parcel index.html
+
+
+<!-- Injected external js file in index.html-->
+    <script
+      type="module"
+      src="./app.js"
+    ></script>
+
+
+// at starting of script.js(in react script is similar as module)
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+
+Parcel Commands :
+For development build:
+npx parcel <entry_point> 
+For production build :(remove this--> "main": "App.js", form package.json to resolve conflicts b/w npm and parcel)
+npx parcel build <entry_point>
+
+
+script: it will run our project in development mode (add below lines in package.json at script object)
+"start": "parcel index.html",  (starting project in development mode)
+"build": "parcel build index.html",  (making our project production ready)
+after adding above lines (in terminal for run --> npm run start/npm start)
+(in terminal for production --> npm run build)
+
+// The changes in package.json for deployment 
+"scripts": {
+    "start": "npx parcel ./src/index.html",
+    "build": "npx parcel build ./src/index.html --dist-dir ./dist",
+    "test": "jest"
+  },
+
+
+// for bug fixing of parcel, react-router-dom
+// in node_modules/react-router-dom/dist/index.mjs
+import { HydratedRouter, RouterProvider } from "react-router/dom"; --> import { HydratedRouter, RouterProvider } from "react-router";
+
